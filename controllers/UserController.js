@@ -52,17 +52,28 @@ userRouter.get('/home', async (req,res) => {
 
 userRouter.put('/update/:id', async (req,res) => {
     const {username, password} = req.body;
-
+   
     const user = await User.findById(req.params.id);
 
         if(user){
+            if(username === undefined){
+                user.username = user.username;
+            }else{
+                user.username= username;
+            }
 
-            var saltRounds =10;
-            const hashedPw = await bcrypt.hash(password, saltRounds);
-            user.username= username;
-            user.password = hashedPw;
-           
-            
+            if(password === undefined){
+                user.password = user.password;
+            }else{
+                //user.password= password;
+
+                var saltRounds =10;
+                const hashedPw = await bcrypt.hash(password, saltRounds);
+               
+                user.password = hashedPw;
+            }
+           // console.log(user.username);
+           // console.log(password);
             const updateUser = await user.save();
 
             res.json(updateUser);
