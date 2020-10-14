@@ -6,7 +6,9 @@ import mongoose from 'mongoose';
 import morgan from 'morgan'; 
 
 import router from './router.js';
+import userRouter from './controllers/UserController.js'
 const app = express();
+
 
 
 const connectDB = async () => {
@@ -45,6 +47,7 @@ app.get('/',(req,res)=>{
 
 
 app.use('/api',router); 
+app.use('/api/user',userRouter);
 
 const PORT = process.env.PORT || '4000';
 
